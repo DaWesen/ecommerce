@@ -48,6 +48,45 @@ struct CreateProductResp{
     4:Product product
 }
 
+struct GetProductReq{
+    1:i64 id
+}
+
+struct GetProductResp{
+    1:bool success
+    2:i32 code = 0
+    3:optional string message
+    4:Product product
+}
+
+struct UpdateProductReq{
+    1:i64 id
+    2:optional string name
+    3:optional string avatar
+    4:optional string category
+    5:optional double price
+    6:optional i32 stock
+    7:optional ProductStatus status
+    8:optional string brand
+}
+
+struct UpdateProductResp{
+    1:bool success
+    2:i32 code = 0
+    3:optional string message
+    4:Product product
+}
+
+struct DeleteProductReq{
+    1:i64 id
+}
+
+struct DeleteProductResp{
+    1:bool success
+    2:i32 code = 0
+    3:optional string message
+}
+
 struct OnlineProductReq{
     1:i64 id
 }
