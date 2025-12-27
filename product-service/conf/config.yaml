@@ -1,0 +1,41 @@
+hertz:
+  port: 8081
+  mode: "debug"
+  timeout: 10s
+
+log:
+  level: "info"
+  format: "text"
+  output: "stdout"
+
+database:
+  mysql:
+    host: "localhost"
+    port: 3306
+    user: "root"
+    password: "password"
+    dbname: "ecommerce"
+    max_open_conns: 100
+    max_idle_conns: 10
+    conn_max_lifetime: 3600
+
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  db: 0
+  pool_size: 10
+
+kafka:
+  brokers:
+    - "localhost:9092"
+  version: "2.8.0"
+
+jwt:
+  secret: "secret-key"
+  expire_hours: 24
+
+kitex:
+  port: 50051
+  client_timeout: 3000
+  server_timeout: 5000

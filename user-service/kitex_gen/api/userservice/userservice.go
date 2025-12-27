@@ -69,6 +69,104 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"GetUserStatus": kitex.NewMethodInfo(
+		getUserStatusHandler,
+		newUserServiceGetUserStatusArgs,
+		newUserServiceGetUserStatusResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"BanUser": kitex.NewMethodInfo(
+		banUserHandler,
+		newUserServiceBanUserArgs,
+		newUserServiceBanUserResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"UnbanUser": kitex.NewMethodInfo(
+		unbanUserHandler,
+		newUserServiceUnbanUserArgs,
+		newUserServiceUnbanUserResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"DeleteUser": kitex.NewMethodInfo(
+		deleteUserHandler,
+		newUserServiceDeleteUserArgs,
+		newUserServiceDeleteUserResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"RestoreUser": kitex.NewMethodInfo(
+		restoreUserHandler,
+		newUserServiceRestoreUserArgs,
+		newUserServiceRestoreUserResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"UpdateUserStatus": kitex.NewMethodInfo(
+		updateUserStatusHandler,
+		newUserServiceUpdateUserStatusArgs,
+		newUserServiceUpdateUserStatusResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ListUsers": kitex.NewMethodInfo(
+		listUsersHandler,
+		newUserServiceListUsersArgs,
+		newUserServiceListUsersResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"SearchUsers": kitex.NewMethodInfo(
+		searchUsersHandler,
+		newUserServiceSearchUsersArgs,
+		newUserServiceSearchUsersResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"CountUsers": kitex.NewMethodInfo(
+		countUsersHandler,
+		newUserServiceCountUsersArgs,
+		newUserServiceCountUsersResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"CountByStatus": kitex.NewMethodInfo(
+		countByStatusHandler,
+		newUserServiceCountByStatusArgs,
+		newUserServiceCountByStatusResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"AdminUpdatePassword": kitex.NewMethodInfo(
+		adminUpdatePasswordHandler,
+		newUserServiceAdminUpdatePasswordArgs,
+		newUserServiceAdminUpdatePasswordResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"AdminUpdateEmail": kitex.NewMethodInfo(
+		adminUpdateEmailHandler,
+		newUserServiceAdminUpdateEmailArgs,
+		newUserServiceAdminUpdateEmailResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"AdminUpdatePhone": kitex.NewMethodInfo(
+		adminUpdatePhoneHandler,
+		newUserServiceAdminUpdatePhoneArgs,
+		newUserServiceAdminUpdatePhoneResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"AdminUpdateUserProfile": kitex.NewMethodInfo(
+		adminUpdateUserProfileHandler,
+		newUserServiceAdminUpdateUserProfileArgs,
+		newUserServiceAdminUpdateUserProfileResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -279,6 +377,258 @@ func newUserServiceLogoutResult() interface{} {
 	return api.NewUserServiceLogoutResult()
 }
 
+func getUserStatusHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceGetUserStatusArgs)
+	realResult := result.(*api.UserServiceGetUserStatusResult)
+	success, err := handler.(api.UserService).GetUserStatus(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceGetUserStatusArgs() interface{} {
+	return api.NewUserServiceGetUserStatusArgs()
+}
+
+func newUserServiceGetUserStatusResult() interface{} {
+	return api.NewUserServiceGetUserStatusResult()
+}
+
+func banUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceBanUserArgs)
+	realResult := result.(*api.UserServiceBanUserResult)
+	success, err := handler.(api.UserService).BanUser(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceBanUserArgs() interface{} {
+	return api.NewUserServiceBanUserArgs()
+}
+
+func newUserServiceBanUserResult() interface{} {
+	return api.NewUserServiceBanUserResult()
+}
+
+func unbanUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceUnbanUserArgs)
+	realResult := result.(*api.UserServiceUnbanUserResult)
+	success, err := handler.(api.UserService).UnbanUser(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceUnbanUserArgs() interface{} {
+	return api.NewUserServiceUnbanUserArgs()
+}
+
+func newUserServiceUnbanUserResult() interface{} {
+	return api.NewUserServiceUnbanUserResult()
+}
+
+func deleteUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceDeleteUserArgs)
+	realResult := result.(*api.UserServiceDeleteUserResult)
+	success, err := handler.(api.UserService).DeleteUser(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceDeleteUserArgs() interface{} {
+	return api.NewUserServiceDeleteUserArgs()
+}
+
+func newUserServiceDeleteUserResult() interface{} {
+	return api.NewUserServiceDeleteUserResult()
+}
+
+func restoreUserHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceRestoreUserArgs)
+	realResult := result.(*api.UserServiceRestoreUserResult)
+	success, err := handler.(api.UserService).RestoreUser(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceRestoreUserArgs() interface{} {
+	return api.NewUserServiceRestoreUserArgs()
+}
+
+func newUserServiceRestoreUserResult() interface{} {
+	return api.NewUserServiceRestoreUserResult()
+}
+
+func updateUserStatusHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceUpdateUserStatusArgs)
+	realResult := result.(*api.UserServiceUpdateUserStatusResult)
+	success, err := handler.(api.UserService).UpdateUserStatus(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceUpdateUserStatusArgs() interface{} {
+	return api.NewUserServiceUpdateUserStatusArgs()
+}
+
+func newUserServiceUpdateUserStatusResult() interface{} {
+	return api.NewUserServiceUpdateUserStatusResult()
+}
+
+func listUsersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceListUsersArgs)
+	realResult := result.(*api.UserServiceListUsersResult)
+	success, err := handler.(api.UserService).ListUsers(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceListUsersArgs() interface{} {
+	return api.NewUserServiceListUsersArgs()
+}
+
+func newUserServiceListUsersResult() interface{} {
+	return api.NewUserServiceListUsersResult()
+}
+
+func searchUsersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceSearchUsersArgs)
+	realResult := result.(*api.UserServiceSearchUsersResult)
+	success, err := handler.(api.UserService).SearchUsers(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceSearchUsersArgs() interface{} {
+	return api.NewUserServiceSearchUsersArgs()
+}
+
+func newUserServiceSearchUsersResult() interface{} {
+	return api.NewUserServiceSearchUsersResult()
+}
+
+func countUsersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceCountUsersArgs)
+	realResult := result.(*api.UserServiceCountUsersResult)
+	success, err := handler.(api.UserService).CountUsers(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceCountUsersArgs() interface{} {
+	return api.NewUserServiceCountUsersArgs()
+}
+
+func newUserServiceCountUsersResult() interface{} {
+	return api.NewUserServiceCountUsersResult()
+}
+
+func countByStatusHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	_ = arg.(*api.UserServiceCountByStatusArgs)
+	realResult := result.(*api.UserServiceCountByStatusResult)
+	success, err := handler.(api.UserService).CountByStatus(ctx)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceCountByStatusArgs() interface{} {
+	return api.NewUserServiceCountByStatusArgs()
+}
+
+func newUserServiceCountByStatusResult() interface{} {
+	return api.NewUserServiceCountByStatusResult()
+}
+
+func adminUpdatePasswordHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceAdminUpdatePasswordArgs)
+	realResult := result.(*api.UserServiceAdminUpdatePasswordResult)
+	success, err := handler.(api.UserService).AdminUpdatePassword(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceAdminUpdatePasswordArgs() interface{} {
+	return api.NewUserServiceAdminUpdatePasswordArgs()
+}
+
+func newUserServiceAdminUpdatePasswordResult() interface{} {
+	return api.NewUserServiceAdminUpdatePasswordResult()
+}
+
+func adminUpdateEmailHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceAdminUpdateEmailArgs)
+	realResult := result.(*api.UserServiceAdminUpdateEmailResult)
+	success, err := handler.(api.UserService).AdminUpdateEmail(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceAdminUpdateEmailArgs() interface{} {
+	return api.NewUserServiceAdminUpdateEmailArgs()
+}
+
+func newUserServiceAdminUpdateEmailResult() interface{} {
+	return api.NewUserServiceAdminUpdateEmailResult()
+}
+
+func adminUpdatePhoneHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceAdminUpdatePhoneArgs)
+	realResult := result.(*api.UserServiceAdminUpdatePhoneResult)
+	success, err := handler.(api.UserService).AdminUpdatePhone(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceAdminUpdatePhoneArgs() interface{} {
+	return api.NewUserServiceAdminUpdatePhoneArgs()
+}
+
+func newUserServiceAdminUpdatePhoneResult() interface{} {
+	return api.NewUserServiceAdminUpdatePhoneResult()
+}
+
+func adminUpdateUserProfileHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.UserServiceAdminUpdateUserProfileArgs)
+	realResult := result.(*api.UserServiceAdminUpdateUserProfileResult)
+	success, err := handler.(api.UserService).AdminUpdateUserProfile(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceAdminUpdateUserProfileArgs() interface{} {
+	return api.NewUserServiceAdminUpdateUserProfileArgs()
+}
+
+func newUserServiceAdminUpdateUserProfileResult() interface{} {
+	return api.NewUserServiceAdminUpdateUserProfileResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -364,6 +714,145 @@ func (p *kClient) Logout(ctx context.Context, req *api.LogoutReq) (r *api.Logout
 	_args.Req = req
 	var _result api.UserServiceLogoutResult
 	if err = p.c.Call(ctx, "Logout", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetUserStatus(ctx context.Context, req *api.GetUserStatusReq) (r *api.GetUserStatusResp, err error) {
+	var _args api.UserServiceGetUserStatusArgs
+	_args.Req = req
+	var _result api.UserServiceGetUserStatusResult
+	if err = p.c.Call(ctx, "GetUserStatus", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) BanUser(ctx context.Context, req *api.BanUserReq) (r *api.BanUserResp, err error) {
+	var _args api.UserServiceBanUserArgs
+	_args.Req = req
+	var _result api.UserServiceBanUserResult
+	if err = p.c.Call(ctx, "BanUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UnbanUser(ctx context.Context, req *api.UnbanUserReq) (r *api.UnbanUserResp, err error) {
+	var _args api.UserServiceUnbanUserArgs
+	_args.Req = req
+	var _result api.UserServiceUnbanUserResult
+	if err = p.c.Call(ctx, "UnbanUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DeleteUser(ctx context.Context, req *api.DeleteUserReq) (r *api.DeleteUserResp, err error) {
+	var _args api.UserServiceDeleteUserArgs
+	_args.Req = req
+	var _result api.UserServiceDeleteUserResult
+	if err = p.c.Call(ctx, "DeleteUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) RestoreUser(ctx context.Context, req *api.RestoreUserReq) (r *api.RestoreUserResp, err error) {
+	var _args api.UserServiceRestoreUserArgs
+	_args.Req = req
+	var _result api.UserServiceRestoreUserResult
+	if err = p.c.Call(ctx, "RestoreUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UpdateUserStatus(ctx context.Context, req *api.UpdateUserStatusReq) (r *api.UpdateUserStatusResp, err error) {
+	var _args api.UserServiceUpdateUserStatusArgs
+	_args.Req = req
+	var _result api.UserServiceUpdateUserStatusResult
+	if err = p.c.Call(ctx, "UpdateUserStatus", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ListUsers(ctx context.Context, req *api.ListUsersReq) (r *api.ListUsersResp, err error) {
+	var _args api.UserServiceListUsersArgs
+	_args.Req = req
+	var _result api.UserServiceListUsersResult
+	if err = p.c.Call(ctx, "ListUsers", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) SearchUsers(ctx context.Context, req *api.SearchUsersReq) (r *api.SearchUsersResp, err error) {
+	var _args api.UserServiceSearchUsersArgs
+	_args.Req = req
+	var _result api.UserServiceSearchUsersResult
+	if err = p.c.Call(ctx, "SearchUsers", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) CountUsers(ctx context.Context, req *api.CountUsersReq) (r *api.CountUsersResp, err error) {
+	var _args api.UserServiceCountUsersArgs
+	_args.Req = req
+	var _result api.UserServiceCountUsersResult
+	if err = p.c.Call(ctx, "CountUsers", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) CountByStatus(ctx context.Context) (r *api.CountByStatusResp, err error) {
+	var _args api.UserServiceCountByStatusArgs
+	var _result api.UserServiceCountByStatusResult
+	if err = p.c.Call(ctx, "CountByStatus", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) AdminUpdatePassword(ctx context.Context, req *api.UpdatePasswordReq) (r *api.UpdatePasswordResp, err error) {
+	var _args api.UserServiceAdminUpdatePasswordArgs
+	_args.Req = req
+	var _result api.UserServiceAdminUpdatePasswordResult
+	if err = p.c.Call(ctx, "AdminUpdatePassword", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) AdminUpdateEmail(ctx context.Context, req *api.UpdateEmailReq) (r *api.UpdateEmailResp, err error) {
+	var _args api.UserServiceAdminUpdateEmailArgs
+	_args.Req = req
+	var _result api.UserServiceAdminUpdateEmailResult
+	if err = p.c.Call(ctx, "AdminUpdateEmail", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) AdminUpdatePhone(ctx context.Context, req *api.UpdatePhoneReq) (r *api.UpdatePhoneResp, err error) {
+	var _args api.UserServiceAdminUpdatePhoneArgs
+	_args.Req = req
+	var _result api.UserServiceAdminUpdatePhoneResult
+	if err = p.c.Call(ctx, "AdminUpdatePhone", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) AdminUpdateUserProfile(ctx context.Context, req *api.UpdateUserProfileReq) (r *api.UpdateUserProfileResp, err error) {
+	var _args api.UserServiceAdminUpdateUserProfileArgs
+	_args.Req = req
+	var _result api.UserServiceAdminUpdateUserProfileResult
+	if err = p.c.Call(ctx, "AdminUpdateUserProfile", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

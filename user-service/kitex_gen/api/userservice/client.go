@@ -19,6 +19,20 @@ type Client interface {
 	ChangePhone(ctx context.Context, req *api.ChangePhoneReq, callOptions ...callopt.Option) (r *api.UpdateUserResp, err error)
 	GetUserProfile(ctx context.Context, req *api.GetUserProfileReq, callOptions ...callopt.Option) (r *api.GetUserProfileResp, err error)
 	Logout(ctx context.Context, req *api.LogoutReq, callOptions ...callopt.Option) (r *api.LogoutResp, err error)
+	GetUserStatus(ctx context.Context, req *api.GetUserStatusReq, callOptions ...callopt.Option) (r *api.GetUserStatusResp, err error)
+	BanUser(ctx context.Context, req *api.BanUserReq, callOptions ...callopt.Option) (r *api.BanUserResp, err error)
+	UnbanUser(ctx context.Context, req *api.UnbanUserReq, callOptions ...callopt.Option) (r *api.UnbanUserResp, err error)
+	DeleteUser(ctx context.Context, req *api.DeleteUserReq, callOptions ...callopt.Option) (r *api.DeleteUserResp, err error)
+	RestoreUser(ctx context.Context, req *api.RestoreUserReq, callOptions ...callopt.Option) (r *api.RestoreUserResp, err error)
+	UpdateUserStatus(ctx context.Context, req *api.UpdateUserStatusReq, callOptions ...callopt.Option) (r *api.UpdateUserStatusResp, err error)
+	ListUsers(ctx context.Context, req *api.ListUsersReq, callOptions ...callopt.Option) (r *api.ListUsersResp, err error)
+	SearchUsers(ctx context.Context, req *api.SearchUsersReq, callOptions ...callopt.Option) (r *api.SearchUsersResp, err error)
+	CountUsers(ctx context.Context, req *api.CountUsersReq, callOptions ...callopt.Option) (r *api.CountUsersResp, err error)
+	CountByStatus(ctx context.Context, callOptions ...callopt.Option) (r *api.CountByStatusResp, err error)
+	AdminUpdatePassword(ctx context.Context, req *api.UpdatePasswordReq, callOptions ...callopt.Option) (r *api.UpdatePasswordResp, err error)
+	AdminUpdateEmail(ctx context.Context, req *api.UpdateEmailReq, callOptions ...callopt.Option) (r *api.UpdateEmailResp, err error)
+	AdminUpdatePhone(ctx context.Context, req *api.UpdatePhoneReq, callOptions ...callopt.Option) (r *api.UpdatePhoneResp, err error)
+	AdminUpdateUserProfile(ctx context.Context, req *api.UpdateUserProfileReq, callOptions ...callopt.Option) (r *api.UpdateUserProfileResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -88,4 +102,74 @@ func (p *kUserServiceClient) GetUserProfile(ctx context.Context, req *api.GetUse
 func (p *kUserServiceClient) Logout(ctx context.Context, req *api.LogoutReq, callOptions ...callopt.Option) (r *api.LogoutResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.Logout(ctx, req)
+}
+
+func (p *kUserServiceClient) GetUserStatus(ctx context.Context, req *api.GetUserStatusReq, callOptions ...callopt.Option) (r *api.GetUserStatusResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetUserStatus(ctx, req)
+}
+
+func (p *kUserServiceClient) BanUser(ctx context.Context, req *api.BanUserReq, callOptions ...callopt.Option) (r *api.BanUserResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.BanUser(ctx, req)
+}
+
+func (p *kUserServiceClient) UnbanUser(ctx context.Context, req *api.UnbanUserReq, callOptions ...callopt.Option) (r *api.UnbanUserResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UnbanUser(ctx, req)
+}
+
+func (p *kUserServiceClient) DeleteUser(ctx context.Context, req *api.DeleteUserReq, callOptions ...callopt.Option) (r *api.DeleteUserResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteUser(ctx, req)
+}
+
+func (p *kUserServiceClient) RestoreUser(ctx context.Context, req *api.RestoreUserReq, callOptions ...callopt.Option) (r *api.RestoreUserResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.RestoreUser(ctx, req)
+}
+
+func (p *kUserServiceClient) UpdateUserStatus(ctx context.Context, req *api.UpdateUserStatusReq, callOptions ...callopt.Option) (r *api.UpdateUserStatusResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UpdateUserStatus(ctx, req)
+}
+
+func (p *kUserServiceClient) ListUsers(ctx context.Context, req *api.ListUsersReq, callOptions ...callopt.Option) (r *api.ListUsersResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListUsers(ctx, req)
+}
+
+func (p *kUserServiceClient) SearchUsers(ctx context.Context, req *api.SearchUsersReq, callOptions ...callopt.Option) (r *api.SearchUsersResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.SearchUsers(ctx, req)
+}
+
+func (p *kUserServiceClient) CountUsers(ctx context.Context, req *api.CountUsersReq, callOptions ...callopt.Option) (r *api.CountUsersResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.CountUsers(ctx, req)
+}
+
+func (p *kUserServiceClient) CountByStatus(ctx context.Context, callOptions ...callopt.Option) (r *api.CountByStatusResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.CountByStatus(ctx)
+}
+
+func (p *kUserServiceClient) AdminUpdatePassword(ctx context.Context, req *api.UpdatePasswordReq, callOptions ...callopt.Option) (r *api.UpdatePasswordResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.AdminUpdatePassword(ctx, req)
+}
+
+func (p *kUserServiceClient) AdminUpdateEmail(ctx context.Context, req *api.UpdateEmailReq, callOptions ...callopt.Option) (r *api.UpdateEmailResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.AdminUpdateEmail(ctx, req)
+}
+
+func (p *kUserServiceClient) AdminUpdatePhone(ctx context.Context, req *api.UpdatePhoneReq, callOptions ...callopt.Option) (r *api.UpdatePhoneResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.AdminUpdatePhone(ctx, req)
+}
+
+func (p *kUserServiceClient) AdminUpdateUserProfile(ctx context.Context, req *api.UpdateUserProfileReq, callOptions ...callopt.Option) (r *api.UpdateUserProfileResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.AdminUpdateUserProfile(ctx, req)
 }
