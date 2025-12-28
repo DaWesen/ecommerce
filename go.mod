@@ -6,6 +6,7 @@ require (
 	github.com/cloudwego/gopkg v0.1.7
 	github.com/cloudwego/hertz v0.10.3
 	github.com/cloudwego/kitex v0.15.3
+	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/spf13/viper v1.21.0
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/driver/sqlite v1.6.0
