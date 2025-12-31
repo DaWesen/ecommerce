@@ -10,10 +10,10 @@ import (
 type User struct {
 	ID        int64          `gorm:"column:id;primaryKey;autoIncrement"`
 	Name      string         `gorm:"column:name;type:varchar(100);not null"`
-	Emali     string         `gorm:"column:email;type:varchar(100);uniqueIndex;not null"`
+	Email     string         `gorm:"column:email;type:varchar(100);uniqueIndex;not null"`
 	Password  string         `gorm:"column:password;type:varchar(255);not null"`
 	Phone     string         `gorm:"column:phone;type:varchar(20);uniqueIndex"`
-	Avater    string         `gorm:"column:avatar;type:varchar(500)"`
+	Avatar    string         `gorm:"column:avatar;type:varchar(500)"`
 	Bio       string         `gorm:"column:bio;type:text"`
 	Gender    string         `gorm:"column:gender;type:tinyint"`
 	LastLogin int64          `gorm:"column:last_login"`

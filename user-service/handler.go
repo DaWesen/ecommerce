@@ -2,11 +2,50 @@ package main
 
 import (
 	"context"
+	"ecommerce/user-service/internal/repository"
+	"ecommerce/user-service/internal/service"
 	api "ecommerce/user-service/kitex_gen/api"
+	"ecommerce/user-service/pkg/config"
+	"ecommerce/user-service/pkg/database"
+	"ecommerce/user-service/pkg/jwt"
+	"fmt"
+	"time"
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
-type UserServiceImpl struct{}
+type UserServiceImpl struct {
+	userService service.UserService
+}
+
+// 创建处理器
+func NewUserServiceImpl() (*UserServiceImpl, error) {
+	//加载配置
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		return nil, fmt.Errorf("加载配置失败: %v", err)
+	}
+	//创建数据库连接
+	db, _, err := database.NewDatabase(&cfg.Database)
+	if err != nil {
+		return nil, fmt.Errorf("数据库连接失败：%v", err)
+	}
+	//根据配置文件创建 JWT 配置
+	jwtCfg := jwt.Config{
+		SecretKey:     cfg.JWT.Secret,
+		Issuer:        "ecommerce-user-service",
+		AccessExpire:  time.Duration(cfg.JWT.ExpireHours) * time.Hour,
+		RefreshExpire: 7 * 24 * time.Hour,
+		Algorithm:     "HS256",
+	}
+	//创建 JWT 管理器
+	jwtManager := jwt.NewJWTManager(jwtCfg)
+	//创建 repository 和 service
+	userRepo := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepo, jwtManager)
+	return &UserServiceImpl{
+		userService: userService,
+	}, nil
+}
 
 // Register implements the UserServiceImpl interface.
 func (s *UserServiceImpl) Register(ctx context.Context, req *api.RegisterReq) (resp *api.RegisterResp, err error) {

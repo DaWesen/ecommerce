@@ -116,8 +116,8 @@ func setDefaults() {
 	viper.SetDefault("log.format", "text")
 	viper.SetDefault("log.output", "stdout")
 	//Database默认值
-	viper.SetDefault("database.mysqql.host", "localhost")
-	viper.SetDefault("databse.mysql.port", 3306)
+	viper.SetDefault("database.mysql.host", "localhost")
+	viper.SetDefault("database.mysql.port", 3306)
 	viper.SetDefault("database.mysql.user", "root")
 	viper.SetDefault("database.mysql.password", "")
 	viper.SetDefault("database.mysql.dbname", "ecommerce")
