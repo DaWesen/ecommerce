@@ -28,7 +28,7 @@ type Client interface {
 	ListUsers(ctx context.Context, req *api.ListUsersReq, callOptions ...callopt.Option) (r *api.ListUsersResp, err error)
 	SearchUsers(ctx context.Context, req *api.SearchUsersReq, callOptions ...callopt.Option) (r *api.SearchUsersResp, err error)
 	CountUsers(ctx context.Context, req *api.CountUsersReq, callOptions ...callopt.Option) (r *api.CountUsersResp, err error)
-	CountByStatus(ctx context.Context, callOptions ...callopt.Option) (r *api.CountByStatusResp, err error)
+	CountByStatus(ctx context.Context, req *api.CountByStatusReq, callOptions ...callopt.Option) (r *api.CountByStatusResp, err error)
 	AdminUpdatePassword(ctx context.Context, req *api.UpdatePasswordReq, callOptions ...callopt.Option) (r *api.UpdatePasswordResp, err error)
 	AdminUpdateEmail(ctx context.Context, req *api.UpdateEmailReq, callOptions ...callopt.Option) (r *api.UpdateEmailResp, err error)
 	AdminUpdatePhone(ctx context.Context, req *api.UpdatePhoneReq, callOptions ...callopt.Option) (r *api.UpdatePhoneResp, err error)
@@ -149,9 +149,9 @@ func (p *kUserServiceClient) CountUsers(ctx context.Context, req *api.CountUsers
 	return p.kClient.CountUsers(ctx, req)
 }
 
-func (p *kUserServiceClient) CountByStatus(ctx context.Context, callOptions ...callopt.Option) (r *api.CountByStatusResp, err error) {
+func (p *kUserServiceClient) CountByStatus(ctx context.Context, req *api.CountByStatusReq, callOptions ...callopt.Option) (r *api.CountByStatusResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.CountByStatus(ctx)
+	return p.kClient.CountByStatus(ctx, req)
 }
 
 func (p *kUserServiceClient) AdminUpdatePassword(ctx context.Context, req *api.UpdatePasswordReq, callOptions ...callopt.Option) (r *api.UpdatePasswordResp, err error) {

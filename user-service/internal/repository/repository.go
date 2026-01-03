@@ -182,7 +182,7 @@ func (r *userRepositoryImpl) SoftDelete(ctx context.Context, id int64) error {
 		Where("id = ?", id).
 		Updates(map[string]interface{}{
 			"status":     model.UserStatusDELETED,
-			"daleted_at": now,
+			"deleted_at": now,
 		}).Error
 }
 

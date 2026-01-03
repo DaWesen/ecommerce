@@ -540,9 +540,9 @@ func newUserServiceCountUsersResult() interface{} {
 }
 
 func countByStatusHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	_ = arg.(*api.UserServiceCountByStatusArgs)
+	realArg := arg.(*api.UserServiceCountByStatusArgs)
 	realResult := result.(*api.UserServiceCountByStatusResult)
-	success, err := handler.(api.UserService).CountByStatus(ctx)
+	success, err := handler.(api.UserService).CountByStatus(ctx, realArg.Req)
 	if err != nil {
 		return err
 	}
@@ -809,8 +809,9 @@ func (p *kClient) CountUsers(ctx context.Context, req *api.CountUsersReq) (r *ap
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) CountByStatus(ctx context.Context) (r *api.CountByStatusResp, err error) {
+func (p *kClient) CountByStatus(ctx context.Context, req *api.CountByStatusReq) (r *api.CountByStatusResp, err error) {
 	var _args api.UserServiceCountByStatusArgs
+	_args.Req = req
 	var _result api.UserServiceCountByStatusResult
 	if err = p.c.Call(ctx, "CountByStatus", &_args, &_result); err != nil {
 		return

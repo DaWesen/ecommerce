@@ -8,7 +8,7 @@ enum UserStatus{
 }
 
 struct User{
-    1: i64 id
+    1:i64 id
     2:string name
     3:string email
     4:string password
@@ -54,23 +54,27 @@ struct UpdateUserReq{
     2:optional string avatar
     3:optional string bio
     4:optional i32 gender
+    5:string token
 }
 
 struct ChangePasswordReq{
     1:string oldPassword
     2:string newPassword
+    3:string token
 }
 
 struct ChangeEmailReq{
     1:string newEmail
     2:string password
     3:string code
+    4:string token
 }
 
 struct ChangePhoneReq{
     1:string newPhone
     2:string password
     3:string code
+    4:string token
 }
 
 struct RegisterResp{
@@ -97,6 +101,7 @@ struct UpdateUserResp{
 
 struct GetUserProfileReq{
     1:i64 id
+    2:string token
 }
 
 struct GetUserProfileResp{
@@ -106,7 +111,9 @@ struct GetUserProfileResp{
     4:optional SafeUser user
 }
 
-struct LogoutReq{}
+struct LogoutReq{
+    1:string token
+}
 
 struct LogoutResp{
     1:bool success
@@ -117,6 +124,7 @@ struct LogoutResp{
 //获取用户状态请求
 struct GetUserStatusReq{
     1:i64 userId
+    2:string token
 }
 
 //获取用户状态响应
@@ -135,6 +143,7 @@ struct GetUserStatusResp{
 struct BanUserReq{
     1:i64 userId
     2:string reason
+    3:string token
 }
 
 //封禁用户响应
@@ -149,6 +158,7 @@ struct BanUserResp{
 //解封用户请求
 struct UnbanUserReq{
     1:i64 userId
+    2:string token
 }
 
 //解封用户响应
@@ -162,6 +172,7 @@ struct UnbanUserResp{
 struct DeleteUserReq{
     1:i64 userId
     2:optional string reason
+    3:string token
 }
 
 //删除用户响应
@@ -175,6 +186,7 @@ struct DeleteUserResp{
 //恢复用户请求
 struct RestoreUserReq{
     1:i64 userId
+    2:string token
 }
 
 //恢复用户响应
@@ -189,6 +201,7 @@ struct UpdateUserStatusReq{
     1:i64 userId
     2:UserStatus status
     3:optional string reason
+    4:string token
 }
 
 //更新用户状态响应
@@ -213,6 +226,7 @@ struct ListUsersReq{
     8:i32 pageSize = 20
     9:optional string orderBy
     10:optional bool desc = false
+    11:string token
 }
 
 //用户列表响应
@@ -232,6 +246,7 @@ struct SearchUsersReq{
     2:optional UserStatus status
     3:i32 page = 1
     4:i32 pageSize = 20
+    5:string token
 }
 
 //搜索用户响应
@@ -248,6 +263,7 @@ struct SearchUsersResp{
 //用户统计请求
 struct CountUsersReq{
     1:optional UserStatus status
+    2:string token
 }
 
 //用户统计响应
@@ -256,6 +272,11 @@ struct CountUsersResp{
     2:i32 code = 0
     3:optional string message
     4:i64 count
+}
+
+//按状态统计请求
+struct CountByStatusReq{
+    1:string token
 }
 
 //按状态统计响应
@@ -270,6 +291,7 @@ struct CountByStatusResp{
 struct UpdatePasswordReq{
     1:i64 userId
     2:string newPassword
+    3:string token
 }
 
 //更新密码响应
@@ -283,6 +305,7 @@ struct UpdatePasswordResp{
 struct UpdateEmailReq{
     1:i64 userId
     2:string newEmail
+    3:string token
 }
 
 //更新邮箱响应
@@ -296,6 +319,7 @@ struct UpdateEmailResp{
 struct UpdatePhoneReq{
     1:i64 userId
     2:string newPhone
+    3:string token
 }
 
 //更新手机号响应
@@ -312,6 +336,7 @@ struct UpdateUserProfileReq{
     3:optional string avatar
     4:optional string bio
     5:optional i32 gender
+    6:string token
 }
 
 //更新用户资料响应
@@ -343,7 +368,7 @@ service UserService {
     SearchUsersResp SearchUsers(1:SearchUsersReq req)
     //用户统计
     CountUsersResp CountUsers(1:CountUsersReq req)
-    CountByStatusResp CountByStatus()
+    CountByStatusResp CountByStatus(1:CountByStatusReq req)
     //管理员操作用户信息
     UpdatePasswordResp AdminUpdatePassword(1:UpdatePasswordReq req)
     UpdateEmailResp AdminUpdateEmail(1:UpdateEmailReq req)

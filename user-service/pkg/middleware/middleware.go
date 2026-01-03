@@ -2,14 +2,18 @@ package middleware
 
 import (
 	"context"
+	"ecommerce/user-service/kitex_gen/api"
 	"ecommerce/user-service/pkg/jwt"
 	"errors"
+	"log"
+	"reflect"
 	"strings"
 
 	"github.com/bytedance/gopkg/cloud/metainfo"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/cloudwego/kitex/pkg/endpoint"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
 )
 
 var (
@@ -77,69 +81,103 @@ func (m *AuthMiddleware) HertzMiddleware() app.HandlerFunc {
 // Kitex RPC中间件
 func (m *AuthMiddleware) KitexMiddleware(next endpoint.Endpoint) endpoint.Endpoint {
 	return func(ctx context.Context, req, resp interface{}) (err error) {
-		//从metainfo中获取token
-		authHeader, exists := metainfo.GetValue(ctx, "authorization")
-		if !exists {
+		//获取当前调用的方法名
+		methodName := ""
+		if ri := rpcinfo.GetRPCInfo(ctx); ri != nil {
+			methodName = ri.Invocation().MethodName()
+		}
+
+		log.Printf("KitexMiddleware: 调用方法: %s", methodName)
+
+		//定义不需要认证的公开方法
+		publicMethods := map[string]bool{
+			"Register": true,
+			"Login":    true,
+		}
+
+		//如果是公开方法，直接跳过认证
+		if publicMethods[methodName] {
+			log.Printf("KitexMiddleware: %s 是公开方法，跳过认证", methodName)
+			return next(ctx, req, resp)
+		}
+
+		//尝试从metainfo获取token
+		var token string
+		possibleHeaders := []string{
+			"authorization",
+			"Authorization",
+			"AUTHORIZATION",
+			"x-auth-token",
+			"X-Auth-Token",
+			"token",
+			"Token",
+			"x-token",
+			"X-Token",
+		}
+
+		for _, header := range possibleHeaders {
+			if val, exists := metainfo.GetValue(ctx, header); exists {
+				token = val
+				log.Printf("KitexMiddleware: 从metainfo[%s]获取到token", header)
+				break
+			}
+		}
+
+		//如果metainfo中没有，尝试从请求结构体中获取
+		if token == "" {
+			token = extractTokenFromArgs(req)
+			if token != "" {
+				log.Printf("KitexMiddleware: 从Args结构体中提取到token")
+			}
+		}
+
+		if token == "" {
+			log.Printf("KitexMiddleware: 没有找到任何认证信息")
 			return ErrTokenMissing
 		}
 
-		//提取Bearer token
-		token := extractTokenFromString(authHeader)
+		//提取Bearer token（如果包含Bearer前缀）
+		token = extractTokenFromString(token)
 		if token == "" {
+			log.Printf("KitexMiddleware: token为空或格式不正确")
 			return ErrTokenInvalid
 		}
+
 		//验证token
 		claims, err := m.jwtManager.VerifyAccessToken(token)
 		if err != nil {
+			log.Printf("KitexMiddleware: token验证失败: %v", err)
 			return err
 		}
+
+		log.Printf("KitexMiddleware: 用户认证成功: user_id=%d, email=%s, is_admin=%v",
+			claims.UserID, claims.Email, claims.IsAdmin)
+
 		//将用户信息存入上下文，供后续处理使用
 		ctx = context.WithValue(ctx, "user_id", claims.UserID)
 		ctx = context.WithValue(ctx, "user_email", claims.Email)
 		ctx = context.WithValue(ctx, "user_status", claims.Status)
 		ctx = context.WithValue(ctx, "is_admin", claims.IsAdmin)
-		// 添加日志记录
-		hlog.CtxInfof(ctx, "用户认证成功: user_id=%d, email=%s, is_admin=%v",
-			claims.UserID, claims.Email, claims.IsAdmin)
 
 		return next(ctx, req, resp)
 	}
 }
 
-// Kitex RPC管理员权限中间件
-func (m *AuthMiddleware) KitexAdminMiddleware(next endpoint.Endpoint) endpoint.Endpoint {
-	return func(ctx context.Context, req, resp interface{}) (err error) {
-		//从metainfo中获取token
-		authHeader, exists := metainfo.GetValue(ctx, "authorization")
-		if !exists {
-			return ErrTokenMissing
-		}
-
-		//提取Bearer token
-		token := extractTokenFromString(authHeader)
-		if token == "" {
-			return ErrTokenInvalid
-		}
-
-		//验证token
-		claims, err := m.jwtManager.VerifyAccessToken(token)
-		if err != nil {
-			return err
-		}
-
-		//检查是否是管理员
-		if !claims.IsAdmin {
-			return ErrNoPermission
-		}
-
-		//将用户信息存入上下文
-		ctx = context.WithValue(ctx, "user_id", claims.UserID)
-		ctx = context.WithValue(ctx, "user_email", claims.Email)
-		ctx = context.WithValue(ctx, "user_status", claims.Status)
-		ctx = context.WithValue(ctx, "is_admin", claims.IsAdmin)
-		hlog.CtxInfof(ctx, "管理员认证成功: user_id=%d, email=%s", claims.UserID, claims.Email)
-		return next(ctx, req, resp)
+// 添加辅助函数
+func safeSubstring(s string, start, end int) string {
+	if s == "" {
+		return ""
 	}
+	if start < 0 {
+		start = 0
+	}
+	if end > len(s) {
+		end = len(s)
+	}
+	if start >= end {
+		return ""
+	}
+	return s[start:end]
 }
 
 // 管理员权限中间件
@@ -188,10 +226,11 @@ func extractTokenFromString(authHeader string) string {
 	}
 	//检查Bearer token格式
 	parts := strings.Split(authHeader, " ")
-	if len(parts) != 2 || strings.ToLower(parts[0]) != "bearer" {
-		return ""
+	if len(parts) == 2 && strings.ToLower(parts[0]) == "bearer" {
+		return parts[1]
 	}
-	return parts[1]
+	//如果没有Bearer前缀，直接返回
+	return authHeader
 }
 
 // 从Hertz上下文中获取用户ID
@@ -298,4 +337,70 @@ func GetUserStatusFromKitexContext(ctx context.Context) (string, bool) {
 		return "", false
 	}
 	return s, true
+}
+
+// 从Args结构体中提取请求并获取token
+func extractTokenFromArgs(req interface{}) string {
+	//使用反射来访问Args结构体的Req字段
+	reqValue := reflect.ValueOf(req)
+	if reqValue.Kind() == reflect.Ptr {
+		reqValue = reqValue.Elem()
+	}
+
+	//Args结构体通常有一个名为"Req"的字段
+	reqField := reqValue.FieldByName("Req")
+	if !reqField.IsValid() || reqField.IsZero() {
+		log.Printf("extractTokenFromArgs: 无法找到Req字段")
+		return ""
+	}
+
+	//获取实际的请求对象
+	actualReq := reqField.Interface()
+
+	//根据实际请求类型提取token
+	switch r := actualReq.(type) {
+	case *api.GetUserProfileReq:
+		return r.Token
+	case *api.UpdateUserReq:
+		return r.Token
+	case *api.ChangePasswordReq:
+		return r.Token
+	case *api.ChangeEmailReq:
+		return r.Token
+	case *api.ChangePhoneReq:
+		return r.Token
+	case *api.LogoutReq:
+		return r.Token
+	case *api.GetUserStatusReq:
+		return r.Token
+	case *api.BanUserReq:
+		return r.Token
+	case *api.UnbanUserReq:
+		return r.Token
+	case *api.DeleteUserReq:
+		return r.Token
+	case *api.RestoreUserReq:
+		return r.Token
+	case *api.UpdateUserStatusReq:
+		return r.Token
+	case *api.ListUsersReq:
+		return r.Token
+	case *api.SearchUsersReq:
+		return r.Token
+	case *api.CountUsersReq:
+		return r.Token
+	case *api.CountByStatusReq:
+		return r.Token
+	case *api.UpdatePasswordReq:
+		return r.Token
+	case *api.UpdateEmailReq:
+		return r.Token
+	case *api.UpdatePhoneReq:
+		return r.Token
+	case *api.UpdateUserProfileReq:
+		return r.Token
+	default:
+		log.Printf("extractTokenFromArgs: 未知的请求类型: %T", actualReq)
+		return ""
+	}
 }

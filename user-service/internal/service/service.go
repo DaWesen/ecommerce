@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"ecommerce/user-service/internal/model"
@@ -77,7 +78,7 @@ func (s *userServiceImpl) canAccessUserInfo(ctx context.Context, targetUserID in
 	if hasUser && currentUserID == targetUserID {
 		return true
 	}
-	return true
+	return false
 }
 
 // 指针转化
@@ -207,6 +208,16 @@ func (s *userServiceImpl) Register(ctx context.Context, req *api.RegisterReq) (*
 }
 
 func (s *userServiceImpl) Login(ctx context.Context, req *api.LoginReq) (*api.LoginResp, error) {
+	log.Printf("Login请求: Phone=%s, Email=%v", req.Phone, req.Email)
+
+	if req == nil {
+		return &api.LoginResp{
+			Code:    400,
+			Success: false,
+			Message: stringPtr("请求不能为空"),
+		}, nil
+	}
+
 	if req.Password == "" {
 		return &api.LoginResp{
 			Code:    400,
@@ -218,10 +229,28 @@ func (s *userServiceImpl) Login(ctx context.Context, req *api.LoginReq) (*api.Lo
 	var user *model.User
 	var err error
 
-	if *req.Email != "" && req.Email != nil {
+	if req.Email != nil && *req.Email != "" {
+		log.Printf("尝试使用邮箱登录: %s", *req.Email)
 		user, err = s.userRepo.FindByEmail(ctx, *req.Email)
+		if err != nil {
+			log.Printf("按邮箱查询用户失败: %v", err)
+			return &api.LoginResp{
+				Code:    500,
+				Success: false,
+				Message: stringPtr("服务器内部错误"),
+			}, err
+		}
 	} else if req.Phone != "" {
+		log.Printf("尝试使用手机号登录: %s", req.Phone)
 		user, err = s.userRepo.FindByPhone(ctx, req.Phone)
+		if err != nil {
+			log.Printf("按手机号查询用户失败: %v", err)
+			return &api.LoginResp{
+				Code:    500,
+				Success: false,
+				Message: stringPtr("服务器内部错误"),
+			}, err
+		}
 	} else {
 		return &api.LoginResp{
 			Code:    400,
@@ -230,21 +259,16 @@ func (s *userServiceImpl) Login(ctx context.Context, req *api.LoginReq) (*api.Lo
 		}, nil
 	}
 
-	if err != nil {
-		return &api.LoginResp{
-			Code:    500,
-			Success: false,
-			Message: stringPtr("服务器内部错误"),
-		}, err
-	}
-
 	if user == nil {
+		log.Printf("用户不存在")
 		return &api.LoginResp{
 			Code:    404,
 			Success: false,
 			Message: stringPtr("用户不存在"),
 		}, nil
 	}
+
+	log.Printf("找到用户: ID=%d, Email=%s, Status=%d", user.ID, user.Email, user.Status)
 
 	if user.Status != model.UserStatusACTIVE && user.Status != model.UserStatusPOWER {
 		return &api.LoginResp{
@@ -262,8 +286,18 @@ func (s *userServiceImpl) Login(ctx context.Context, req *api.LoginReq) (*api.Lo
 		}, nil
 	}
 
+	//确保 jwtManager不为nil
+	if s.jwtManager == nil {
+		return &api.LoginResp{
+			Code:    500,
+			Success: false,
+			Message: stringPtr("JWT管理器未初始化"),
+		}, nil
+	}
+
 	token, err := s.jwtManager.GenerateAccessToken(user.ID, user.Email, user.Name, int32(user.Status), user.Status == model.UserStatusPOWER)
 	if err != nil {
+		log.Printf("生成令牌失败: %v", err)
 		return &api.LoginResp{
 			Code:    500,
 			Success: false,
@@ -275,11 +309,7 @@ func (s *userServiceImpl) Login(ctx context.Context, req *api.LoginReq) (*api.Lo
 	user.LastLogin = now
 	err = s.userRepo.Update(ctx, user)
 	if err != nil {
-		return &api.LoginResp{
-			Code:    500,
-			Success: false,
-			Message: stringPtr("更新登录时间失败"),
-		}, err
+		log.Printf("更新登录时间失败: %v", err)
 	}
 
 	return &api.LoginResp{
@@ -296,7 +326,7 @@ func (s *userServiceImpl) UpdateUser(ctx context.Context, req *api.UpdateUserReq
 		return &api.UpdateUserResp{
 			Code:    401,
 			Success: false,
-			Message: stringPtr("未授权访问"),
+			Message: stringPtr("未授权访问，请先登录"),
 		}, nil
 	}
 
@@ -585,7 +615,6 @@ func (s *userServiceImpl) GetUserProfile(ctx context.Context, req *api.GetUserPr
 			Message: stringPtr("无权查看该用户信息"),
 		}, nil
 	}
-
 	user, err := s.userRepo.FindByID(ctx, req.Id)
 	if err != nil {
 		return &api.GetUserProfileResp{

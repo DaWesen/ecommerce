@@ -500,6 +500,7 @@ type UpdateUserReq struct {
 	Avatar *string `thrift:"avatar,2,optional" frugal:"2,optional,string" json:"avatar,omitempty"`
 	Bio    *string `thrift:"bio,3,optional" frugal:"3,optional,string" json:"bio,omitempty"`
 	Gender *int32  `thrift:"gender,4,optional" frugal:"4,optional,i32" json:"gender,omitempty"`
+	Token  string  `thrift:"token,5" frugal:"5,default,string" json:"token"`
 }
 
 func NewUpdateUserReq() *UpdateUserReq {
@@ -544,6 +545,10 @@ func (p *UpdateUserReq) GetGender() (v int32) {
 	}
 	return *p.Gender
 }
+
+func (p *UpdateUserReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *UpdateUserReq) SetName(val *string) {
 	p.Name = val
 }
@@ -555,6 +560,9 @@ func (p *UpdateUserReq) SetBio(val *string) {
 }
 func (p *UpdateUserReq) SetGender(val *int32) {
 	p.Gender = val
+}
+func (p *UpdateUserReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *UpdateUserReq) IsSetName() bool {
@@ -585,11 +593,13 @@ var fieldIDToName_UpdateUserReq = map[int16]string{
 	2: "avatar",
 	3: "bio",
 	4: "gender",
+	5: "token",
 }
 
 type ChangePasswordReq struct {
 	OldPassword  string `thrift:"oldPassword,1" frugal:"1,default,string" json:"oldPassword"`
 	NewPassword_ string `thrift:"newPassword,2" frugal:"2,default,string" json:"newPassword"`
+	Token        string `thrift:"token,3" frugal:"3,default,string" json:"token"`
 }
 
 func NewChangePasswordReq() *ChangePasswordReq {
@@ -606,11 +616,18 @@ func (p *ChangePasswordReq) GetOldPassword() (v string) {
 func (p *ChangePasswordReq) GetNewPassword_() (v string) {
 	return p.NewPassword_
 }
+
+func (p *ChangePasswordReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *ChangePasswordReq) SetOldPassword(val string) {
 	p.OldPassword = val
 }
 func (p *ChangePasswordReq) SetNewPassword_(val string) {
 	p.NewPassword_ = val
+}
+func (p *ChangePasswordReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *ChangePasswordReq) String() string {
@@ -623,12 +640,14 @@ func (p *ChangePasswordReq) String() string {
 var fieldIDToName_ChangePasswordReq = map[int16]string{
 	1: "oldPassword",
 	2: "newPassword",
+	3: "token",
 }
 
 type ChangeEmailReq struct {
 	NewEmail_ string `thrift:"newEmail,1" frugal:"1,default,string" json:"newEmail"`
 	Password  string `thrift:"password,2" frugal:"2,default,string" json:"password"`
 	Code      string `thrift:"code,3" frugal:"3,default,string" json:"code"`
+	Token     string `thrift:"token,4" frugal:"4,default,string" json:"token"`
 }
 
 func NewChangeEmailReq() *ChangeEmailReq {
@@ -649,6 +668,10 @@ func (p *ChangeEmailReq) GetPassword() (v string) {
 func (p *ChangeEmailReq) GetCode() (v string) {
 	return p.Code
 }
+
+func (p *ChangeEmailReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *ChangeEmailReq) SetNewEmail_(val string) {
 	p.NewEmail_ = val
 }
@@ -657,6 +680,9 @@ func (p *ChangeEmailReq) SetPassword(val string) {
 }
 func (p *ChangeEmailReq) SetCode(val string) {
 	p.Code = val
+}
+func (p *ChangeEmailReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *ChangeEmailReq) String() string {
@@ -670,12 +696,14 @@ var fieldIDToName_ChangeEmailReq = map[int16]string{
 	1: "newEmail",
 	2: "password",
 	3: "code",
+	4: "token",
 }
 
 type ChangePhoneReq struct {
 	NewPhone_ string `thrift:"newPhone,1" frugal:"1,default,string" json:"newPhone"`
 	Password  string `thrift:"password,2" frugal:"2,default,string" json:"password"`
 	Code      string `thrift:"code,3" frugal:"3,default,string" json:"code"`
+	Token     string `thrift:"token,4" frugal:"4,default,string" json:"token"`
 }
 
 func NewChangePhoneReq() *ChangePhoneReq {
@@ -696,6 +724,10 @@ func (p *ChangePhoneReq) GetPassword() (v string) {
 func (p *ChangePhoneReq) GetCode() (v string) {
 	return p.Code
 }
+
+func (p *ChangePhoneReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *ChangePhoneReq) SetNewPhone_(val string) {
 	p.NewPhone_ = val
 }
@@ -704,6 +736,9 @@ func (p *ChangePhoneReq) SetPassword(val string) {
 }
 func (p *ChangePhoneReq) SetCode(val string) {
 	p.Code = val
+}
+func (p *ChangePhoneReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *ChangePhoneReq) String() string {
@@ -717,6 +752,7 @@ var fieldIDToName_ChangePhoneReq = map[int16]string{
 	1: "newPhone",
 	2: "password",
 	3: "code",
+	4: "token",
 }
 
 type RegisterResp struct {
@@ -933,7 +969,8 @@ var fieldIDToName_UpdateUserResp = map[int16]string{
 }
 
 type GetUserProfileReq struct {
-	Id int64 `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	Id    int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	Token string `thrift:"token,2" frugal:"2,default,string" json:"token"`
 }
 
 func NewGetUserProfileReq() *GetUserProfileReq {
@@ -946,8 +983,15 @@ func (p *GetUserProfileReq) InitDefault() {
 func (p *GetUserProfileReq) GetId() (v int64) {
 	return p.Id
 }
+
+func (p *GetUserProfileReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *GetUserProfileReq) SetId(val int64) {
 	p.Id = val
+}
+func (p *GetUserProfileReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *GetUserProfileReq) String() string {
@@ -959,6 +1003,7 @@ func (p *GetUserProfileReq) String() string {
 
 var fieldIDToName_GetUserProfileReq = map[int16]string{
 	1: "id",
+	2: "token",
 }
 
 type GetUserProfileResp struct {
@@ -1039,6 +1084,7 @@ var fieldIDToName_GetUserProfileResp = map[int16]string{
 }
 
 type LogoutReq struct {
+	Token string `thrift:"token,1" frugal:"1,default,string" json:"token"`
 }
 
 func NewLogoutReq() *LogoutReq {
@@ -1048,6 +1094,13 @@ func NewLogoutReq() *LogoutReq {
 func (p *LogoutReq) InitDefault() {
 }
 
+func (p *LogoutReq) GetToken() (v string) {
+	return p.Token
+}
+func (p *LogoutReq) SetToken(val string) {
+	p.Token = val
+}
+
 func (p *LogoutReq) String() string {
 	if p == nil {
 		return "<nil>"
@@ -1055,7 +1108,9 @@ func (p *LogoutReq) String() string {
 	return fmt.Sprintf("LogoutReq(%+v)", *p)
 }
 
-var fieldIDToName_LogoutReq = map[int16]string{}
+var fieldIDToName_LogoutReq = map[int16]string{
+	1: "token",
+}
 
 type LogoutResp struct {
 	Success bool    `thrift:"success,1" frugal:"1,default,bool" json:"success"`
@@ -1117,7 +1172,8 @@ var fieldIDToName_LogoutResp = map[int16]string{
 }
 
 type GetUserStatusReq struct {
-	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	UserId int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Token  string `thrift:"token,2" frugal:"2,default,string" json:"token"`
 }
 
 func NewGetUserStatusReq() *GetUserStatusReq {
@@ -1130,8 +1186,15 @@ func (p *GetUserStatusReq) InitDefault() {
 func (p *GetUserStatusReq) GetUserId() (v int64) {
 	return p.UserId
 }
+
+func (p *GetUserStatusReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *GetUserStatusReq) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *GetUserStatusReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *GetUserStatusReq) String() string {
@@ -1143,6 +1206,7 @@ func (p *GetUserStatusReq) String() string {
 
 var fieldIDToName_GetUserStatusReq = map[int16]string{
 	1: "userId",
+	2: "token",
 }
 
 type GetUserStatusResp struct {
@@ -1270,6 +1334,7 @@ var fieldIDToName_GetUserStatusResp = map[int16]string{
 type BanUserReq struct {
 	UserId int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	Reason string `thrift:"reason,2" frugal:"2,default,string" json:"reason"`
+	Token  string `thrift:"token,3" frugal:"3,default,string" json:"token"`
 }
 
 func NewBanUserReq() *BanUserReq {
@@ -1286,11 +1351,18 @@ func (p *BanUserReq) GetUserId() (v int64) {
 func (p *BanUserReq) GetReason() (v string) {
 	return p.Reason
 }
+
+func (p *BanUserReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *BanUserReq) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *BanUserReq) SetReason(val string) {
 	p.Reason = val
+}
+func (p *BanUserReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *BanUserReq) String() string {
@@ -1303,6 +1375,7 @@ func (p *BanUserReq) String() string {
 var fieldIDToName_BanUserReq = map[int16]string{
 	1: "userId",
 	2: "reason",
+	3: "token",
 }
 
 type BanUserResp struct {
@@ -1401,7 +1474,8 @@ var fieldIDToName_BanUserResp = map[int16]string{
 }
 
 type UnbanUserReq struct {
-	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	UserId int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Token  string `thrift:"token,2" frugal:"2,default,string" json:"token"`
 }
 
 func NewUnbanUserReq() *UnbanUserReq {
@@ -1414,8 +1488,15 @@ func (p *UnbanUserReq) InitDefault() {
 func (p *UnbanUserReq) GetUserId() (v int64) {
 	return p.UserId
 }
+
+func (p *UnbanUserReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *UnbanUserReq) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *UnbanUserReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *UnbanUserReq) String() string {
@@ -1427,6 +1508,7 @@ func (p *UnbanUserReq) String() string {
 
 var fieldIDToName_UnbanUserReq = map[int16]string{
 	1: "userId",
+	2: "token",
 }
 
 type UnbanUserResp struct {
@@ -1491,6 +1573,7 @@ var fieldIDToName_UnbanUserResp = map[int16]string{
 type DeleteUserReq struct {
 	UserId int64   `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	Reason *string `thrift:"reason,2,optional" frugal:"2,optional,string" json:"reason,omitempty"`
+	Token  string  `thrift:"token,3" frugal:"3,default,string" json:"token"`
 }
 
 func NewDeleteUserReq() *DeleteUserReq {
@@ -1512,11 +1595,18 @@ func (p *DeleteUserReq) GetReason() (v string) {
 	}
 	return *p.Reason
 }
+
+func (p *DeleteUserReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *DeleteUserReq) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *DeleteUserReq) SetReason(val *string) {
 	p.Reason = val
+}
+func (p *DeleteUserReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *DeleteUserReq) IsSetReason() bool {
@@ -1533,6 +1623,7 @@ func (p *DeleteUserReq) String() string {
 var fieldIDToName_DeleteUserReq = map[int16]string{
 	1: "userId",
 	2: "reason",
+	3: "token",
 }
 
 type DeleteUserResp struct {
@@ -1613,7 +1704,8 @@ var fieldIDToName_DeleteUserResp = map[int16]string{
 }
 
 type RestoreUserReq struct {
-	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	UserId int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Token  string `thrift:"token,2" frugal:"2,default,string" json:"token"`
 }
 
 func NewRestoreUserReq() *RestoreUserReq {
@@ -1626,8 +1718,15 @@ func (p *RestoreUserReq) InitDefault() {
 func (p *RestoreUserReq) GetUserId() (v int64) {
 	return p.UserId
 }
+
+func (p *RestoreUserReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *RestoreUserReq) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *RestoreUserReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *RestoreUserReq) String() string {
@@ -1639,6 +1738,7 @@ func (p *RestoreUserReq) String() string {
 
 var fieldIDToName_RestoreUserReq = map[int16]string{
 	1: "userId",
+	2: "token",
 }
 
 type RestoreUserResp struct {
@@ -1704,6 +1804,7 @@ type UpdateUserStatusReq struct {
 	UserId int64      `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	Status UserStatus `thrift:"status,2" frugal:"2,default,UserStatus" json:"status"`
 	Reason *string    `thrift:"reason,3,optional" frugal:"3,optional,string" json:"reason,omitempty"`
+	Token  string     `thrift:"token,4" frugal:"4,default,string" json:"token"`
 }
 
 func NewUpdateUserStatusReq() *UpdateUserStatusReq {
@@ -1729,6 +1830,10 @@ func (p *UpdateUserStatusReq) GetReason() (v string) {
 	}
 	return *p.Reason
 }
+
+func (p *UpdateUserStatusReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *UpdateUserStatusReq) SetUserId(val int64) {
 	p.UserId = val
 }
@@ -1737,6 +1842,9 @@ func (p *UpdateUserStatusReq) SetStatus(val UserStatus) {
 }
 func (p *UpdateUserStatusReq) SetReason(val *string) {
 	p.Reason = val
+}
+func (p *UpdateUserStatusReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *UpdateUserStatusReq) IsSetReason() bool {
@@ -1754,6 +1862,7 @@ var fieldIDToName_UpdateUserStatusReq = map[int16]string{
 	1: "userId",
 	2: "status",
 	3: "reason",
+	4: "token",
 }
 
 type UpdateUserStatusResp struct {
@@ -1853,6 +1962,7 @@ type ListUsersReq struct {
 	PageSize     int32       `thrift:"pageSize,8" frugal:"8,default,i32" json:"pageSize"`
 	OrderBy      *string     `thrift:"orderBy,9,optional" frugal:"9,optional,string" json:"orderBy,omitempty"`
 	Desc         bool        `thrift:"desc,10,optional" frugal:"10,optional,bool" json:"desc,omitempty"`
+	Token        string      `thrift:"token,11" frugal:"11,default,string" json:"token"`
 }
 
 func NewListUsersReq() *ListUsersReq {
@@ -1948,6 +2058,10 @@ func (p *ListUsersReq) GetDesc() (v bool) {
 	}
 	return p.Desc
 }
+
+func (p *ListUsersReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *ListUsersReq) SetStatus(val *UserStatus) {
 	p.Status = val
 }
@@ -1977,6 +2091,9 @@ func (p *ListUsersReq) SetOrderBy(val *string) {
 }
 func (p *ListUsersReq) SetDesc(val bool) {
 	p.Desc = val
+}
+func (p *ListUsersReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *ListUsersReq) IsSetStatus() bool {
@@ -2029,6 +2146,7 @@ var fieldIDToName_ListUsersReq = map[int16]string{
 	8:  "pageSize",
 	9:  "orderBy",
 	10: "desc",
+	11: "token",
 }
 
 type ListUsersResp struct {
@@ -2131,6 +2249,7 @@ type SearchUsersReq struct {
 	Status   *UserStatus `thrift:"status,2,optional" frugal:"2,optional,UserStatus" json:"status,omitempty"`
 	Page     int32       `thrift:"page,3" frugal:"3,default,i32" json:"page"`
 	PageSize int32       `thrift:"pageSize,4" frugal:"4,default,i32" json:"pageSize"`
+	Token    string      `thrift:"token,5" frugal:"5,default,string" json:"token"`
 }
 
 func NewSearchUsersReq() *SearchUsersReq {
@@ -2165,6 +2284,10 @@ func (p *SearchUsersReq) GetPage() (v int32) {
 func (p *SearchUsersReq) GetPageSize() (v int32) {
 	return p.PageSize
 }
+
+func (p *SearchUsersReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *SearchUsersReq) SetKeyword(val string) {
 	p.Keyword = val
 }
@@ -2176,6 +2299,9 @@ func (p *SearchUsersReq) SetPage(val int32) {
 }
 func (p *SearchUsersReq) SetPageSize(val int32) {
 	p.PageSize = val
+}
+func (p *SearchUsersReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *SearchUsersReq) IsSetStatus() bool {
@@ -2194,6 +2320,7 @@ var fieldIDToName_SearchUsersReq = map[int16]string{
 	2: "status",
 	3: "page",
 	4: "pageSize",
+	5: "token",
 }
 
 type SearchUsersResp struct {
@@ -2293,6 +2420,7 @@ var fieldIDToName_SearchUsersResp = map[int16]string{
 
 type CountUsersReq struct {
 	Status *UserStatus `thrift:"status,1,optional" frugal:"1,optional,UserStatus" json:"status,omitempty"`
+	Token  string      `thrift:"token,2" frugal:"2,default,string" json:"token"`
 }
 
 func NewCountUsersReq() *CountUsersReq {
@@ -2310,8 +2438,15 @@ func (p *CountUsersReq) GetStatus() (v UserStatus) {
 	}
 	return *p.Status
 }
+
+func (p *CountUsersReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *CountUsersReq) SetStatus(val *UserStatus) {
 	p.Status = val
+}
+func (p *CountUsersReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *CountUsersReq) IsSetStatus() bool {
@@ -2327,6 +2462,7 @@ func (p *CountUsersReq) String() string {
 
 var fieldIDToName_CountUsersReq = map[int16]string{
 	1: "status",
+	2: "token",
 }
 
 type CountUsersResp struct {
@@ -2395,6 +2531,35 @@ var fieldIDToName_CountUsersResp = map[int16]string{
 	2: "code",
 	3: "message",
 	4: "count",
+}
+
+type CountByStatusReq struct {
+	Token string `thrift:"token,1" frugal:"1,default,string" json:"token"`
+}
+
+func NewCountByStatusReq() *CountByStatusReq {
+	return &CountByStatusReq{}
+}
+
+func (p *CountByStatusReq) InitDefault() {
+}
+
+func (p *CountByStatusReq) GetToken() (v string) {
+	return p.Token
+}
+func (p *CountByStatusReq) SetToken(val string) {
+	p.Token = val
+}
+
+func (p *CountByStatusReq) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CountByStatusReq(%+v)", *p)
+}
+
+var fieldIDToName_CountByStatusReq = map[int16]string{
+	1: "token",
 }
 
 type CountByStatusResp struct {
@@ -2468,6 +2633,7 @@ var fieldIDToName_CountByStatusResp = map[int16]string{
 type UpdatePasswordReq struct {
 	UserId       int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	NewPassword_ string `thrift:"newPassword,2" frugal:"2,default,string" json:"newPassword"`
+	Token        string `thrift:"token,3" frugal:"3,default,string" json:"token"`
 }
 
 func NewUpdatePasswordReq() *UpdatePasswordReq {
@@ -2484,11 +2650,18 @@ func (p *UpdatePasswordReq) GetUserId() (v int64) {
 func (p *UpdatePasswordReq) GetNewPassword_() (v string) {
 	return p.NewPassword_
 }
+
+func (p *UpdatePasswordReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *UpdatePasswordReq) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *UpdatePasswordReq) SetNewPassword_(val string) {
 	p.NewPassword_ = val
+}
+func (p *UpdatePasswordReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *UpdatePasswordReq) String() string {
@@ -2501,6 +2674,7 @@ func (p *UpdatePasswordReq) String() string {
 var fieldIDToName_UpdatePasswordReq = map[int16]string{
 	1: "userId",
 	2: "newPassword",
+	3: "token",
 }
 
 type UpdatePasswordResp struct {
@@ -2565,6 +2739,7 @@ var fieldIDToName_UpdatePasswordResp = map[int16]string{
 type UpdateEmailReq struct {
 	UserId    int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	NewEmail_ string `thrift:"newEmail,2" frugal:"2,default,string" json:"newEmail"`
+	Token     string `thrift:"token,3" frugal:"3,default,string" json:"token"`
 }
 
 func NewUpdateEmailReq() *UpdateEmailReq {
@@ -2581,11 +2756,18 @@ func (p *UpdateEmailReq) GetUserId() (v int64) {
 func (p *UpdateEmailReq) GetNewEmail_() (v string) {
 	return p.NewEmail_
 }
+
+func (p *UpdateEmailReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *UpdateEmailReq) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *UpdateEmailReq) SetNewEmail_(val string) {
 	p.NewEmail_ = val
+}
+func (p *UpdateEmailReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *UpdateEmailReq) String() string {
@@ -2598,6 +2780,7 @@ func (p *UpdateEmailReq) String() string {
 var fieldIDToName_UpdateEmailReq = map[int16]string{
 	1: "userId",
 	2: "newEmail",
+	3: "token",
 }
 
 type UpdateEmailResp struct {
@@ -2662,6 +2845,7 @@ var fieldIDToName_UpdateEmailResp = map[int16]string{
 type UpdatePhoneReq struct {
 	UserId    int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
 	NewPhone_ string `thrift:"newPhone,2" frugal:"2,default,string" json:"newPhone"`
+	Token     string `thrift:"token,3" frugal:"3,default,string" json:"token"`
 }
 
 func NewUpdatePhoneReq() *UpdatePhoneReq {
@@ -2678,11 +2862,18 @@ func (p *UpdatePhoneReq) GetUserId() (v int64) {
 func (p *UpdatePhoneReq) GetNewPhone_() (v string) {
 	return p.NewPhone_
 }
+
+func (p *UpdatePhoneReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *UpdatePhoneReq) SetUserId(val int64) {
 	p.UserId = val
 }
 func (p *UpdatePhoneReq) SetNewPhone_(val string) {
 	p.NewPhone_ = val
+}
+func (p *UpdatePhoneReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *UpdatePhoneReq) String() string {
@@ -2695,6 +2886,7 @@ func (p *UpdatePhoneReq) String() string {
 var fieldIDToName_UpdatePhoneReq = map[int16]string{
 	1: "userId",
 	2: "newPhone",
+	3: "token",
 }
 
 type UpdatePhoneResp struct {
@@ -2762,6 +2954,7 @@ type UpdateUserProfileReq struct {
 	Avatar *string `thrift:"avatar,3,optional" frugal:"3,optional,string" json:"avatar,omitempty"`
 	Bio    *string `thrift:"bio,4,optional" frugal:"4,optional,string" json:"bio,omitempty"`
 	Gender *int32  `thrift:"gender,5,optional" frugal:"5,optional,i32" json:"gender,omitempty"`
+	Token  string  `thrift:"token,6" frugal:"6,default,string" json:"token"`
 }
 
 func NewUpdateUserProfileReq() *UpdateUserProfileReq {
@@ -2810,6 +3003,10 @@ func (p *UpdateUserProfileReq) GetGender() (v int32) {
 	}
 	return *p.Gender
 }
+
+func (p *UpdateUserProfileReq) GetToken() (v string) {
+	return p.Token
+}
 func (p *UpdateUserProfileReq) SetUserId(val int64) {
 	p.UserId = val
 }
@@ -2824,6 +3021,9 @@ func (p *UpdateUserProfileReq) SetBio(val *string) {
 }
 func (p *UpdateUserProfileReq) SetGender(val *int32) {
 	p.Gender = val
+}
+func (p *UpdateUserProfileReq) SetToken(val string) {
+	p.Token = val
 }
 
 func (p *UpdateUserProfileReq) IsSetName() bool {
@@ -2855,6 +3055,7 @@ var fieldIDToName_UpdateUserProfileReq = map[int16]string{
 	3: "avatar",
 	4: "bio",
 	5: "gender",
+	6: "token",
 }
 
 type UpdateUserProfileResp struct {
@@ -2969,7 +3170,7 @@ type UserService interface {
 
 	CountUsers(ctx context.Context, req *CountUsersReq) (r *CountUsersResp, err error)
 
-	CountByStatus(ctx context.Context) (r *CountByStatusResp, err error)
+	CountByStatus(ctx context.Context, req *CountByStatusReq) (r *CountByStatusResp, err error)
 
 	AdminUpdatePassword(ctx context.Context, req *UpdatePasswordReq) (r *UpdatePasswordResp, err error)
 
@@ -4273,6 +4474,7 @@ var fieldIDToName_UserServiceCountUsersResult = map[int16]string{
 }
 
 type UserServiceCountByStatusArgs struct {
+	Req *CountByStatusReq `thrift:"req,1" frugal:"1,default,CountByStatusReq" json:"req"`
 }
 
 func NewUserServiceCountByStatusArgs() *UserServiceCountByStatusArgs {
@@ -4282,6 +4484,22 @@ func NewUserServiceCountByStatusArgs() *UserServiceCountByStatusArgs {
 func (p *UserServiceCountByStatusArgs) InitDefault() {
 }
 
+var UserServiceCountByStatusArgs_Req_DEFAULT *CountByStatusReq
+
+func (p *UserServiceCountByStatusArgs) GetReq() (v *CountByStatusReq) {
+	if !p.IsSetReq() {
+		return UserServiceCountByStatusArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *UserServiceCountByStatusArgs) SetReq(val *CountByStatusReq) {
+	p.Req = val
+}
+
+func (p *UserServiceCountByStatusArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
 func (p *UserServiceCountByStatusArgs) String() string {
 	if p == nil {
 		return "<nil>"
@@ -4289,7 +4507,9 @@ func (p *UserServiceCountByStatusArgs) String() string {
 	return fmt.Sprintf("UserServiceCountByStatusArgs(%+v)", *p)
 }
 
-var fieldIDToName_UserServiceCountByStatusArgs = map[int16]string{}
+var fieldIDToName_UserServiceCountByStatusArgs = map[int16]string{
+	1: "req",
+}
 
 type UserServiceCountByStatusResult struct {
 	Success *CountByStatusResp `thrift:"success,0,optional" frugal:"0,optional,CountByStatusResp" json:"success,omitempty"`
