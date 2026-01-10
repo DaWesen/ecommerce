@@ -14,9 +14,18 @@ type Client interface {
 	CreateOrder(ctx context.Context, req *api.CreateOrderReq, callOptions ...callopt.Option) (r *api.CreateOrderResp, err error)
 	PayOrder(ctx context.Context, req *api.PayOrderReq, callOptions ...callopt.Option) (r *api.PayOrderResp, err error)
 	CancelOrder(ctx context.Context, req *api.CancelOrderReq, callOptions ...callopt.Option) (r *api.CancelOrderResp, err error)
-	GetOrderDetail(ctx context.Context, req *api.GetOrderDetailReq, callOptions ...callopt.Option) (r *api.GetOrderDetailResp, err error)
-	QueryOrders(ctx context.Context, req *api.QueryOrderReq, callOptions ...callopt.Option) (r *api.QueryOrderResp, err error)
-	UpdateOrderStatus(ctx context.Context, req *api.UpdateOrderStatusReq, callOptions ...callopt.Option) (r *api.UpdateOrderStatusResp, err error)
+	GetOrder(ctx context.Context, req *api.GetOrderReq, callOptions ...callopt.Option) (r *api.GetOrderResp, err error)
+	ListOrders(ctx context.Context, req *api.ListOrdersReq, callOptions ...callopt.Option) (r *api.ListOrdersResp, err error)
+	ApplyRefund(ctx context.Context, req *api.ApplyRefundReq, callOptions ...callopt.Option) (r *api.ApplyRefundResp, err error)
+	ProcessRefund(ctx context.Context, req *api.ProcessRefundReq, callOptions ...callopt.Option) (r *api.ProcessRefundResp, err error)
+	ReserveStock(ctx context.Context, req *api.ReserveStockReq, callOptions ...callopt.Option) (r *api.ReserveStockResp, err error)
+	ReleaseStock(ctx context.Context, req *api.ReleaseStockReq, callOptions ...callopt.Option) (r *api.ReleaseStockResp, err error)
+	ConfirmStock(ctx context.Context, req *api.ConfirmStockReq, callOptions ...callopt.Option) (r *api.ConfirmStockResp, err error)
+	ProcessTimeout(ctx context.Context, req *api.ProcessTimeoutReq, callOptions ...callopt.Option) (r *api.ProcessTimeoutResp, err error)
+	GetOrderStats(ctx context.Context, req *api.OrderStatsReq, callOptions ...callopt.Option) (r *api.OrderStatsResp, err error)
+	UpdateOrderStatus(ctx context.Context, req *api.CancelOrderReq, callOptions ...callopt.Option) (r *api.CancelOrderResp, err error)
+	ShipOrder(ctx context.Context, req *api.PayOrderReq, callOptions ...callopt.Option) (r *api.PayOrderResp, err error)
+	ConfirmReceipt(ctx context.Context, req *api.PayOrderReq, callOptions ...callopt.Option) (r *api.PayOrderResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -63,17 +72,62 @@ func (p *kOrderServiceClient) CancelOrder(ctx context.Context, req *api.CancelOr
 	return p.kClient.CancelOrder(ctx, req)
 }
 
-func (p *kOrderServiceClient) GetOrderDetail(ctx context.Context, req *api.GetOrderDetailReq, callOptions ...callopt.Option) (r *api.GetOrderDetailResp, err error) {
+func (p *kOrderServiceClient) GetOrder(ctx context.Context, req *api.GetOrderReq, callOptions ...callopt.Option) (r *api.GetOrderResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetOrderDetail(ctx, req)
+	return p.kClient.GetOrder(ctx, req)
 }
 
-func (p *kOrderServiceClient) QueryOrders(ctx context.Context, req *api.QueryOrderReq, callOptions ...callopt.Option) (r *api.QueryOrderResp, err error) {
+func (p *kOrderServiceClient) ListOrders(ctx context.Context, req *api.ListOrdersReq, callOptions ...callopt.Option) (r *api.ListOrdersResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.QueryOrders(ctx, req)
+	return p.kClient.ListOrders(ctx, req)
 }
 
-func (p *kOrderServiceClient) UpdateOrderStatus(ctx context.Context, req *api.UpdateOrderStatusReq, callOptions ...callopt.Option) (r *api.UpdateOrderStatusResp, err error) {
+func (p *kOrderServiceClient) ApplyRefund(ctx context.Context, req *api.ApplyRefundReq, callOptions ...callopt.Option) (r *api.ApplyRefundResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ApplyRefund(ctx, req)
+}
+
+func (p *kOrderServiceClient) ProcessRefund(ctx context.Context, req *api.ProcessRefundReq, callOptions ...callopt.Option) (r *api.ProcessRefundResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ProcessRefund(ctx, req)
+}
+
+func (p *kOrderServiceClient) ReserveStock(ctx context.Context, req *api.ReserveStockReq, callOptions ...callopt.Option) (r *api.ReserveStockResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ReserveStock(ctx, req)
+}
+
+func (p *kOrderServiceClient) ReleaseStock(ctx context.Context, req *api.ReleaseStockReq, callOptions ...callopt.Option) (r *api.ReleaseStockResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ReleaseStock(ctx, req)
+}
+
+func (p *kOrderServiceClient) ConfirmStock(ctx context.Context, req *api.ConfirmStockReq, callOptions ...callopt.Option) (r *api.ConfirmStockResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfirmStock(ctx, req)
+}
+
+func (p *kOrderServiceClient) ProcessTimeout(ctx context.Context, req *api.ProcessTimeoutReq, callOptions ...callopt.Option) (r *api.ProcessTimeoutResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ProcessTimeout(ctx, req)
+}
+
+func (p *kOrderServiceClient) GetOrderStats(ctx context.Context, req *api.OrderStatsReq, callOptions ...callopt.Option) (r *api.OrderStatsResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetOrderStats(ctx, req)
+}
+
+func (p *kOrderServiceClient) UpdateOrderStatus(ctx context.Context, req *api.CancelOrderReq, callOptions ...callopt.Option) (r *api.CancelOrderResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UpdateOrderStatus(ctx, req)
+}
+
+func (p *kOrderServiceClient) ShipOrder(ctx context.Context, req *api.PayOrderReq, callOptions ...callopt.Option) (r *api.PayOrderResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ShipOrder(ctx, req)
+}
+
+func (p *kOrderServiceClient) ConfirmReceipt(ctx context.Context, req *api.PayOrderReq, callOptions ...callopt.Option) (r *api.PayOrderResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ConfirmReceipt(ctx, req)
 }

@@ -1,0 +1,57 @@
+server:
+  port: 8080
+  env: "development"
+  name: "ecommerce-gateway"
+  timeout: "30s"
+  enable_swagger: true
+
+log:
+  level: "debug"
+  format: "json"
+  output: "stdout"
+  path: "./logs"
+
+services:
+  user_service:
+    host: "localhost"
+    port: 50052
+    name: "user.service"
+    timeout: 5000
+
+  product_service:
+    host: "localhost"
+    port: 50051
+    name: "product.service"
+    timeout: 5000
+
+  order_service:
+    host: "localhost"
+    port: 50053
+    name: "order.service"
+    timeout: 10000
+
+jwt:
+  secret: "your-secret-key-change-in-production"
+  expire_hours: 24
+  issuer: "ecommerce-gateway"
+
+rate_limit:
+  enable: true
+  requests: 100
+  window: "1m"
+  burst: 20
+  ip_limit: true
+  user_limit: false
+
+middleware:
+  enable_auth: true
+  enable_log: true
+  enable_trace: true
+  enable_metrics: true
+
+health_check:
+  enable: true
+  interval: "30s"
+  timeout: "5s"
+  threshold: 3
+  path: "/health"

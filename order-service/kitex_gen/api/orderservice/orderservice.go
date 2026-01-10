@@ -34,17 +34,66 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
-	"GetOrderDetail": kitex.NewMethodInfo(
-		getOrderDetailHandler,
-		newOrderServiceGetOrderDetailArgs,
-		newOrderServiceGetOrderDetailResult,
+	"GetOrder": kitex.NewMethodInfo(
+		getOrderHandler,
+		newOrderServiceGetOrderArgs,
+		newOrderServiceGetOrderResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
-	"QueryOrders": kitex.NewMethodInfo(
-		queryOrdersHandler,
-		newOrderServiceQueryOrdersArgs,
-		newOrderServiceQueryOrdersResult,
+	"ListOrders": kitex.NewMethodInfo(
+		listOrdersHandler,
+		newOrderServiceListOrdersArgs,
+		newOrderServiceListOrdersResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ApplyRefund": kitex.NewMethodInfo(
+		applyRefundHandler,
+		newOrderServiceApplyRefundArgs,
+		newOrderServiceApplyRefundResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ProcessRefund": kitex.NewMethodInfo(
+		processRefundHandler,
+		newOrderServiceProcessRefundArgs,
+		newOrderServiceProcessRefundResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ReserveStock": kitex.NewMethodInfo(
+		reserveStockHandler,
+		newOrderServiceReserveStockArgs,
+		newOrderServiceReserveStockResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ReleaseStock": kitex.NewMethodInfo(
+		releaseStockHandler,
+		newOrderServiceReleaseStockArgs,
+		newOrderServiceReleaseStockResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ConfirmStock": kitex.NewMethodInfo(
+		confirmStockHandler,
+		newOrderServiceConfirmStockArgs,
+		newOrderServiceConfirmStockResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ProcessTimeout": kitex.NewMethodInfo(
+		processTimeoutHandler,
+		newOrderServiceProcessTimeoutArgs,
+		newOrderServiceProcessTimeoutResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"GetOrderStats": kitex.NewMethodInfo(
+		getOrderStatsHandler,
+		newOrderServiceGetOrderStatsArgs,
+		newOrderServiceGetOrderStatsResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
@@ -52,6 +101,20 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		updateOrderStatusHandler,
 		newOrderServiceUpdateOrderStatusArgs,
 		newOrderServiceUpdateOrderStatusResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ShipOrder": kitex.NewMethodInfo(
+		shipOrderHandler,
+		newOrderServiceShipOrderArgs,
+		newOrderServiceShipOrderResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"ConfirmReceipt": kitex.NewMethodInfo(
+		confirmReceiptHandler,
+		newOrderServiceConfirmReceiptArgs,
+		newOrderServiceConfirmReceiptResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
@@ -175,40 +238,166 @@ func newOrderServiceCancelOrderResult() interface{} {
 	return api.NewOrderServiceCancelOrderResult()
 }
 
-func getOrderDetailHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*api.OrderServiceGetOrderDetailArgs)
-	realResult := result.(*api.OrderServiceGetOrderDetailResult)
-	success, err := handler.(api.OrderService).GetOrderDetail(ctx, realArg.Req)
+func getOrderHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceGetOrderArgs)
+	realResult := result.(*api.OrderServiceGetOrderResult)
+	success, err := handler.(api.OrderService).GetOrder(ctx, realArg.Req)
 	if err != nil {
 		return err
 	}
 	realResult.Success = success
 	return nil
 }
-func newOrderServiceGetOrderDetailArgs() interface{} {
-	return api.NewOrderServiceGetOrderDetailArgs()
+func newOrderServiceGetOrderArgs() interface{} {
+	return api.NewOrderServiceGetOrderArgs()
 }
 
-func newOrderServiceGetOrderDetailResult() interface{} {
-	return api.NewOrderServiceGetOrderDetailResult()
+func newOrderServiceGetOrderResult() interface{} {
+	return api.NewOrderServiceGetOrderResult()
 }
 
-func queryOrdersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*api.OrderServiceQueryOrdersArgs)
-	realResult := result.(*api.OrderServiceQueryOrdersResult)
-	success, err := handler.(api.OrderService).QueryOrders(ctx, realArg.Req)
+func listOrdersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceListOrdersArgs)
+	realResult := result.(*api.OrderServiceListOrdersResult)
+	success, err := handler.(api.OrderService).ListOrders(ctx, realArg.Req)
 	if err != nil {
 		return err
 	}
 	realResult.Success = success
 	return nil
 }
-func newOrderServiceQueryOrdersArgs() interface{} {
-	return api.NewOrderServiceQueryOrdersArgs()
+func newOrderServiceListOrdersArgs() interface{} {
+	return api.NewOrderServiceListOrdersArgs()
 }
 
-func newOrderServiceQueryOrdersResult() interface{} {
-	return api.NewOrderServiceQueryOrdersResult()
+func newOrderServiceListOrdersResult() interface{} {
+	return api.NewOrderServiceListOrdersResult()
+}
+
+func applyRefundHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceApplyRefundArgs)
+	realResult := result.(*api.OrderServiceApplyRefundResult)
+	success, err := handler.(api.OrderService).ApplyRefund(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceApplyRefundArgs() interface{} {
+	return api.NewOrderServiceApplyRefundArgs()
+}
+
+func newOrderServiceApplyRefundResult() interface{} {
+	return api.NewOrderServiceApplyRefundResult()
+}
+
+func processRefundHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceProcessRefundArgs)
+	realResult := result.(*api.OrderServiceProcessRefundResult)
+	success, err := handler.(api.OrderService).ProcessRefund(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceProcessRefundArgs() interface{} {
+	return api.NewOrderServiceProcessRefundArgs()
+}
+
+func newOrderServiceProcessRefundResult() interface{} {
+	return api.NewOrderServiceProcessRefundResult()
+}
+
+func reserveStockHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceReserveStockArgs)
+	realResult := result.(*api.OrderServiceReserveStockResult)
+	success, err := handler.(api.OrderService).ReserveStock(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceReserveStockArgs() interface{} {
+	return api.NewOrderServiceReserveStockArgs()
+}
+
+func newOrderServiceReserveStockResult() interface{} {
+	return api.NewOrderServiceReserveStockResult()
+}
+
+func releaseStockHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceReleaseStockArgs)
+	realResult := result.(*api.OrderServiceReleaseStockResult)
+	success, err := handler.(api.OrderService).ReleaseStock(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceReleaseStockArgs() interface{} {
+	return api.NewOrderServiceReleaseStockArgs()
+}
+
+func newOrderServiceReleaseStockResult() interface{} {
+	return api.NewOrderServiceReleaseStockResult()
+}
+
+func confirmStockHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceConfirmStockArgs)
+	realResult := result.(*api.OrderServiceConfirmStockResult)
+	success, err := handler.(api.OrderService).ConfirmStock(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceConfirmStockArgs() interface{} {
+	return api.NewOrderServiceConfirmStockArgs()
+}
+
+func newOrderServiceConfirmStockResult() interface{} {
+	return api.NewOrderServiceConfirmStockResult()
+}
+
+func processTimeoutHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceProcessTimeoutArgs)
+	realResult := result.(*api.OrderServiceProcessTimeoutResult)
+	success, err := handler.(api.OrderService).ProcessTimeout(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceProcessTimeoutArgs() interface{} {
+	return api.NewOrderServiceProcessTimeoutArgs()
+}
+
+func newOrderServiceProcessTimeoutResult() interface{} {
+	return api.NewOrderServiceProcessTimeoutResult()
+}
+
+func getOrderStatsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceGetOrderStatsArgs)
+	realResult := result.(*api.OrderServiceGetOrderStatsResult)
+	success, err := handler.(api.OrderService).GetOrderStats(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceGetOrderStatsArgs() interface{} {
+	return api.NewOrderServiceGetOrderStatsArgs()
+}
+
+func newOrderServiceGetOrderStatsResult() interface{} {
+	return api.NewOrderServiceGetOrderStatsResult()
 }
 
 func updateOrderStatusHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -227,6 +416,42 @@ func newOrderServiceUpdateOrderStatusArgs() interface{} {
 
 func newOrderServiceUpdateOrderStatusResult() interface{} {
 	return api.NewOrderServiceUpdateOrderStatusResult()
+}
+
+func shipOrderHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceShipOrderArgs)
+	realResult := result.(*api.OrderServiceShipOrderResult)
+	success, err := handler.(api.OrderService).ShipOrder(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceShipOrderArgs() interface{} {
+	return api.NewOrderServiceShipOrderArgs()
+}
+
+func newOrderServiceShipOrderResult() interface{} {
+	return api.NewOrderServiceShipOrderResult()
+}
+
+func confirmReceiptHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.OrderServiceConfirmReceiptArgs)
+	realResult := result.(*api.OrderServiceConfirmReceiptResult)
+	success, err := handler.(api.OrderService).ConfirmReceipt(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newOrderServiceConfirmReceiptArgs() interface{} {
+	return api.NewOrderServiceConfirmReceiptArgs()
+}
+
+func newOrderServiceConfirmReceiptResult() interface{} {
+	return api.NewOrderServiceConfirmReceiptResult()
 }
 
 type kClient struct {
@@ -269,31 +494,121 @@ func (p *kClient) CancelOrder(ctx context.Context, req *api.CancelOrderReq) (r *
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetOrderDetail(ctx context.Context, req *api.GetOrderDetailReq) (r *api.GetOrderDetailResp, err error) {
-	var _args api.OrderServiceGetOrderDetailArgs
+func (p *kClient) GetOrder(ctx context.Context, req *api.GetOrderReq) (r *api.GetOrderResp, err error) {
+	var _args api.OrderServiceGetOrderArgs
 	_args.Req = req
-	var _result api.OrderServiceGetOrderDetailResult
-	if err = p.c.Call(ctx, "GetOrderDetail", &_args, &_result); err != nil {
+	var _result api.OrderServiceGetOrderResult
+	if err = p.c.Call(ctx, "GetOrder", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) QueryOrders(ctx context.Context, req *api.QueryOrderReq) (r *api.QueryOrderResp, err error) {
-	var _args api.OrderServiceQueryOrdersArgs
+func (p *kClient) ListOrders(ctx context.Context, req *api.ListOrdersReq) (r *api.ListOrdersResp, err error) {
+	var _args api.OrderServiceListOrdersArgs
 	_args.Req = req
-	var _result api.OrderServiceQueryOrdersResult
-	if err = p.c.Call(ctx, "QueryOrders", &_args, &_result); err != nil {
+	var _result api.OrderServiceListOrdersResult
+	if err = p.c.Call(ctx, "ListOrders", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UpdateOrderStatus(ctx context.Context, req *api.UpdateOrderStatusReq) (r *api.UpdateOrderStatusResp, err error) {
+func (p *kClient) ApplyRefund(ctx context.Context, req *api.ApplyRefundReq) (r *api.ApplyRefundResp, err error) {
+	var _args api.OrderServiceApplyRefundArgs
+	_args.Req = req
+	var _result api.OrderServiceApplyRefundResult
+	if err = p.c.Call(ctx, "ApplyRefund", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ProcessRefund(ctx context.Context, req *api.ProcessRefundReq) (r *api.ProcessRefundResp, err error) {
+	var _args api.OrderServiceProcessRefundArgs
+	_args.Req = req
+	var _result api.OrderServiceProcessRefundResult
+	if err = p.c.Call(ctx, "ProcessRefund", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ReserveStock(ctx context.Context, req *api.ReserveStockReq) (r *api.ReserveStockResp, err error) {
+	var _args api.OrderServiceReserveStockArgs
+	_args.Req = req
+	var _result api.OrderServiceReserveStockResult
+	if err = p.c.Call(ctx, "ReserveStock", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ReleaseStock(ctx context.Context, req *api.ReleaseStockReq) (r *api.ReleaseStockResp, err error) {
+	var _args api.OrderServiceReleaseStockArgs
+	_args.Req = req
+	var _result api.OrderServiceReleaseStockResult
+	if err = p.c.Call(ctx, "ReleaseStock", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfirmStock(ctx context.Context, req *api.ConfirmStockReq) (r *api.ConfirmStockResp, err error) {
+	var _args api.OrderServiceConfirmStockArgs
+	_args.Req = req
+	var _result api.OrderServiceConfirmStockResult
+	if err = p.c.Call(ctx, "ConfirmStock", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ProcessTimeout(ctx context.Context, req *api.ProcessTimeoutReq) (r *api.ProcessTimeoutResp, err error) {
+	var _args api.OrderServiceProcessTimeoutArgs
+	_args.Req = req
+	var _result api.OrderServiceProcessTimeoutResult
+	if err = p.c.Call(ctx, "ProcessTimeout", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetOrderStats(ctx context.Context, req *api.OrderStatsReq) (r *api.OrderStatsResp, err error) {
+	var _args api.OrderServiceGetOrderStatsArgs
+	_args.Req = req
+	var _result api.OrderServiceGetOrderStatsResult
+	if err = p.c.Call(ctx, "GetOrderStats", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UpdateOrderStatus(ctx context.Context, req *api.CancelOrderReq) (r *api.CancelOrderResp, err error) {
 	var _args api.OrderServiceUpdateOrderStatusArgs
 	_args.Req = req
 	var _result api.OrderServiceUpdateOrderStatusResult
 	if err = p.c.Call(ctx, "UpdateOrderStatus", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ShipOrder(ctx context.Context, req *api.PayOrderReq) (r *api.PayOrderResp, err error) {
+	var _args api.OrderServiceShipOrderArgs
+	_args.Req = req
+	var _result api.OrderServiceShipOrderResult
+	if err = p.c.Call(ctx, "ShipOrder", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ConfirmReceipt(ctx context.Context, req *api.PayOrderReq) (r *api.PayOrderResp, err error) {
+	var _args api.OrderServiceConfirmReceiptArgs
+	_args.Req = req
+	var _result api.OrderServiceConfirmReceiptResult
+	if err = p.c.Call(ctx, "ConfirmReceipt", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
